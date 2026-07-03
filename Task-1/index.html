@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrthoNow | Book Consultation</title>
+    <style>
+        /* reset default margin/padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* base font and bg for whole page */
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* common padding for all sections */
+        section {
+            padding: 60px 20px;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+        }
+
+        /* remove underline from anchor wrapping button */
+        a {
+            text-decoration: none;
+        }
+
+        /* hero section */
+        #hero {
+            text-align: center;
+            background: #fff;
+            padding: 80px 20px;
+        }
+
+        #hero h1 {
+            font-size: 42px;
+            color: #1f2937;
+            margin-bottom: 20px;
+        }
+
+        /* keeping the paragraph width limited so it doesn't stretch too wide on big screens */
+        #hero p {
+            font-size: 18px;
+            color: #555;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.7;
+        }
+
+        #hero button {
+            background: #800020;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        /* darker blue on hover */
+        #hero button:hover {
+            background: #5c0017;
+        }
+
+        /* consultation form section */
+        #consultation {
+            background: #f8f9fa;
+            text-align: center;
+        }
+
+        /* card look for the form box */
+        #consultationForm {
+            max-width: 500px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        #consultationForm label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        #consultationForm input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        /* blue border when input is clicked/focused */
+        #consultationForm input:focus {
+            outline: none;
+            border-color: #800020;
+        }
+
+        #consultationForm button {
+            width: 100%;
+            background: #800020;
+            color: white;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        #consultationForm button:hover {
+            background: #5c0017;
+        }
+
+        /* error text under each field, using this instead of inline style on every <small> tag */
+        small {
+            color: red;
+            display: block;
+            text-align: left;
+            margin-top: -12px;
+            margin-bottom: 12px;
+        }
+
+        /* hidden until form is submitted successfully, toggled in JS */
+        #thankYouState {
+            display: none;
+        }
+
+        /* trust badges */
+        #trust {
+            background: #fff;
+            text-align: center;
+        }
+
+        /* row of cards, wraps on small screens */
+        .trust-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .trust-card {
+            background: #f8f9fa;
+            width: 300px;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+        }
+
+        .trust-card:hover {
+            transform: translateY(-5px); /* lift up a bit on hover */
+        }
+
+        .trust-card h3 {
+            color: #800020;
+            margin-bottom: 15px;
+        }
+
+        .trust-card p {
+            color: #555;
+        }
+
+        /* footer */
+        footer {
+            background: #1f2937;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+
+        /* mobile view */
+        @media (max-width: 768px) {
+            #hero h1 {
+                font-size: 32px;
+            }
+
+            #hero p {
+                font-size: 16px;
+            }
+
+            #consultationForm {
+                width: 100%;
+                padding: 20px;
+            }
+
+            /* stack cards on top of each other on small screens */
+            .trust-container {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .trust-card {
+                width: 100%;
+                max-width: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- hero / banner -->
+    <section id="hero">
+        <h1>Get an Expert Orthopaedic Opinion</h1>
+        <p>
+            Experiencing knee or back pain? Book your consultation at
+            OrthoNow with experienced orthopaedic specialists across
+            9 clinics in Bengaluru.
+        </p>
+        <a href="#consultation">
+            <button>Book Consultation</button>
+        </a>
+    </section>
+
+    <!-- booking form -->
+    <section id="consultation">
+        <div id="formContainer">
+            <h2>Book Your Consultation</h2>
+            <form id="consultationForm">
+                <label for="userName">Full Name</label>
+                <input type="text" id="userName" placeholder="Enter Your Full Name">
+                <small id="nameError"></small>
+
+                <label for="userPhone">Phone Number</label>
+                <input type="tel" id="userPhone" placeholder="Enter 10 Digit Phone Number">
+                <small id="phoneError"></small>
+                <button type="submit">Book Consultation</button>
+            </form>
+        </div>
+
+        <!-- shown after successful submit, hidden by default in css -->
+        <div id="thankYouState">
+            <h2 id="thankYouHeading">🎉 Thank You!</h2>
+            <p>
+                Your consultation request has been submitted successfully.
+                Our team will contact you shortly.
+            </p>
+        </div>
+    </section>
+
+    <!-- trust / why choose us cards -->
+    <section id="trust">
+        <h2>Why Choose OrthoNow?</h2>
+        <div class="trust-container">
+            <div class="trust-card">
+                <h3>9 Clinics Across Bengaluru</h3>
+                <p>Conveniently located across Bengaluru for easy access.</p>
+            </div>
+            <div class="trust-card">
+                <h3>Experienced Orthopaedic Specialists</h3>
+                <p>Expert consultation for knee and back pain treatment.</p>
+            </div>
+            <div class="trust-card">
+                <h3>10,000+ Happy Patients</h3>
+                <p>Trusted by thousands of patients for quality orthopaedic care.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 OrthoNow. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // grabbing all the elements we need
+        const form = document.getElementById("consultationForm");
+        const formContainer = document.getElementById("formContainer");
+        const nameInput = document.getElementById("userName");
+        const phoneInput = document.getElementById("userPhone");
+        const nameError = document.getElementById("nameError");
+        const phoneError = document.getElementById("phoneError");
+        const thankYouState = document.getElementById("thankYouState");
+        const thankYouHeading = document.getElementById("thankYouHeading");
+
+        // GTM dataLayer, create it if it's not already there
+        window.dataLayer = window.dataLayer || [];
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // stop normal form submit/page reload
+
+            // reset old errors first
+            nameError.innerText = "";
+            phoneError.innerText = "";
+
+            // Assume the form is valid at first. 
+            //If any validation fails, we will change it to false.
+            let isValid = true;
+
+            const nameValue = nameInput.value.trim();
+            const phoneValue = phoneInput.value.trim();
+
+            // name validation
+            if (nameValue === "") {
+                nameError.innerText = "Please enter your name.";
+                isValid = false;
+            } else if (!isNaN(nameValue)) {
+                // isNaN is true if it's NOT a number, so this catches names that are only digits
+                nameError.innerText = "Name cannot contain only numbers.";
+                isValid = false;
+            }
+
+            // phone validation
+            if (phoneValue === "") {
+                phoneError.innerText = "Please enter your phone number.";
+                isValid = false;
+            } else if (isNaN(phoneValue)) {
+                phoneError.innerText = "Phone number must contain only digits.";
+                isValid = false;
+            } else if (phoneValue.length !== 10) {
+                phoneError.innerText = "Phone number must be exactly 10 digits.";
+                isValid = false;
+            }
+
+            // only run this part if everything above passed
+            if (isValid) {
+                // push to GTM dataLayer for tracking
+                window.dataLayer.push({
+                    event: "consultation_form_submitted",
+                    patient_name: nameValue,
+                    phone_number: phoneValue
+                });
+
+                console.log("form submitted", window.dataLayer);
+
+                // swap form out for the thank you message
+                formContainer.style.display = "none";
+                thankYouHeading.innerText = `🎉 Thank You, ${nameValue}!`;
+                thankYouState.style.display = "block";
+            }
+        });
+    </script>
+
+</body>
+</html>
+>
